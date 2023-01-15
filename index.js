@@ -1,14 +1,20 @@
+
 const http = require('http');
-const fs = require('fs');
+const fs = require('fs/promises');
 
 
+const server = http.createServer(async (req, res) => {
 
-const server = http.createServer((req, res) => {
-    res.writeHead(200, {
-        'content-type': 'text/html'
-    })
+    if (req.url == '/') {
+        res.writeHead(200, {
+            'content-type': 'text/html'
+        })
+        const homepage = await fs.readFile('./resources/home.html', 'utf-8');
+        res.write(homepage)
 
-    res.write('<H1>Hello world</H>');
+    }
+
+    res.end();
 
 });
 
