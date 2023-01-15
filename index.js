@@ -1,6 +1,7 @@
 
 const http = require('http');
 const fs = require('fs/promises');
+const fss = require('fs');
 const cats = require('./cats.json')
 
 
@@ -31,9 +32,10 @@ function readFile(path) {
     return fs.readFile(path, { encoding: 'utf-8' })
 }
 
-async function catTemplete(cat){
+function catTemplete(cat){
 
-    const html = await readFile('./resources/cat.html');
+    const html = fss.readFileSync('./resources/cat.html', 'utf-8');
+
     let result = html.replace('{{name}}', cat.name);
     result = result.replace('{{description}}', cat.description);
     result = result.replace('{{imageUrl}}', cat.imageUrl);
