@@ -7,6 +7,7 @@ const qsData = require('querystring');
 
 
 const server = http.createServer(async (req, res) => {
+   
 
     if (req.url == '/') {
         res.writeHead(200, {
@@ -23,13 +24,14 @@ const server = http.createServer(async (req, res) => {
         })
         const cssFile = await readFile('./styles/site.css');
         res.write(cssFile)
-        
-    } else if( req.url == '/cats/add-cat'){
+
+    } else if(/cats\/add-cat/.test(req.url)){
         res.writeHead(200, {
             'content-type': 'text/html'
         })
         const addNewCatView = await readFile('./resources/addCat.html');
-        //const data = qsData.parse(req.url.split('?'))[1];
+        const data = qsData.parse(req.url.split('?')[1])
+        console.log(data)
         res.write(addNewCatView)
     }
 
