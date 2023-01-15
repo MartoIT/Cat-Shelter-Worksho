@@ -2,7 +2,8 @@
 const http = require('http');
 const fs = require('fs/promises');
 const fss = require('fs');
-const cats = require('./cats.json')
+const cats = require('./cats.json');
+const qsData = require('querystring');
 
 
 const server = http.createServer(async (req, res) => {
@@ -22,6 +23,14 @@ const server = http.createServer(async (req, res) => {
         })
         const cssFile = await readFile('./styles/site.css');
         res.write(cssFile)
+        
+    } else if( req.url == '/cats/add-cat'){
+        res.writeHead(200, {
+            'content-type': 'text/html'
+        })
+        const addNewCatView = await readFile('./resources/addCat.html');
+        //const data = qsData.parse(req.url.split('?'))[1];
+        res.write(addNewCatView)
     }
 
     res.end();
@@ -43,6 +52,10 @@ function catTemplete(cat){
 
     return result;
 }
+
+// function addNewCat(){
+//     const data = 
+// }
 
 console.log('Server is listening on a port 5000...');
 server.listen(5000);
